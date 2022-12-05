@@ -2,49 +2,131 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>{Project title (short)}</title>
+    <title>WWM Statistics</title>
     <link rel="stylesheet" href="styles.css" />
-    <script src="https://d3js.org/d3.v7.js"></script>
-    <script src="https://d3js.org/d3-collection.v1.min.js"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
   </head>
 
-  <body>
-    <header>
-      <h1>{Cars and their significance}</h1>
-      
-    </header>
-
-    <div class="container">
-      <h2>{Project subtitle}</h2>
-      <p>{Project description}</p>
-      <div class="charts">
-        <div class="chart-1">
-          <label for="select">Group by:</label>
-          <select name="select" id="select" onchange="selectGroup(value)">
-            <option value="countries" selected>Countries</option>
-            <option value="ownership">Ownership</option>
-          </select>
-          <div class="dendogram"></div>
+  <body class="container-background">
+    <div>
+      <div class="row container-row">
+        <div class="col col-lg-8">
+          <div
+            class="card"
+            style="background-color: #0000008a; border-radius: 5px"
+          >
+            <div class="card-header" style="color: #fff">
+              <h1>CARS AND THEIR SIGNIFICANCE</h1>
+            </div>
+            <div class="card-body">
+              <div class="card-text author-row">
+                
+              </div>
+            </div>
+          </div>
         </div>
-        <div>
-          <div class="chart-2">
-            <button onclick="onClear()">Clear</button>
-            <div class="bubble"></div>
+        <div class="col">
+          <div
+            class="card"
+            style="
+              background-color: #ffffff8a;
+              border-radius: 5px;
+              margin-top: 30px;
+            "
+          >
+            <div class="button-class">
+              Click
+              <a class="btn btn-dark" href="./visualization.html" role="button"
+                >Visualization</a
+              >
+              to see visualization
+            </div>
+            <div class="button-class">
+              Click
+              <a class="btn btn-info" href="./processBook.pdf" role="button"
+                >About</a
+              >
+              to know more about project
+            </div>
+            <div class="button-class">
+              Click
+              <a
+                class="btn btn-link"
+                href="https://google.com"
+                target="_BLANK"
+                role="button"
+                >here</a
+              >
+              to see a video
+            </div>
           </div>
-          <div class="chart-3">
-            <div class="lineChart"></div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div
+            class="card"
+            style="
+              background-color: #0000008a;
+              border-radius: 5px;
+              margin-top: 30px;
+            "
+          >
+            <div class="card-body">
+              <h5 class="card-title" style="font-weight: bold; color: #fff">
+                Background & Motivation
+              </h5>
+              <div
+                class="card-text"
+                style="font-weight: 500; font-style: italic; color: #fff"
+              >
+                As we know that cars are the leading automobiles which are being
+                sold every year. There are multiple companies which manufacture
+                the cars. Most of the companies are in Americas, China, Europe
+                and India. So, we would like to demonstrate the hierarchy of the
+                companies. The main motivation to choose this topic is because
+                the sales of the cars never decreases and car can be viewed as
+                one of the significant factor in the increasing population.
+              </div>
+            </div>
           </div>
-          <div class="chart-4">
-            <div class="parallel"></div>
+        </div>
+        <div class="col">
+          <div class="row">
+            <div
+              class="card"
+              style="
+                background-color: #0000008a;
+                border-radius: 5px;
+                margin-left: 10px;
+                margin-top: 30px;
+              "
+            >
+              <div class="card-body">
+                <h5 class="card-title" style="font-weight: bold; color: #fff">
+                  Project Objectives
+                </h5>
+                <div
+                  class="card-text"
+                  style="font-weight: 500; font-style: italic; color: #fff"
+                >
+                  By doing this visualization one can understand the hierarchy
+                  in the evolution of cars. Apart from this we can also learn
+                  the sales of the cars in the recent years. In addition to that
+                  we can also know which cars are being sold the most in US. We
+                  have considered the US sales data, so we can visualize the
+                  sales of cars considering a span of years.
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
-
-    <script src="scripts/script.js"></script>
-    <script src="scripts/dendrogram.js"></script>
-    <script src="scripts/bubble.js"></script>
-    <script src="scripts/linechart.js"></script>
-    <script src="scripts/parallelCordinates.js"></script>
   </body>
 </html>

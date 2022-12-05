@@ -1,11 +1,12 @@
 var parallelMargin = { top: 30, right: 30, bottom: 30, left: 120 },
-  parallelWidth = 1250 - parallelMargin.left - parallelMargin.right,
-  parallelHeight = 2500 - parallelMargin.top - parallelMargin.bottom;
+  parallelWidth = 900 - parallelMargin.left - parallelMargin.right;
 
-function drawParallelCordinates(data, brands, columns) {
+function drawParallelCoordinates(data, brands, columns) {
+  parallelHeight = brands.length < 48 ? 600 : brands.length * 12.5;
   var svg = d3
     .select(".parallel")
     .append("svg")
+    .attr("id", "parallel")
     .attr("width", parallelWidth + parallelMargin.left + parallelMargin.right)
     .attr("height", parallelHeight + parallelMargin.top + parallelMargin.bottom)
     .append("g")
@@ -18,12 +19,22 @@ function drawParallelCordinates(data, brands, columns) {
 
   dimensions = columns;
   var y = {};
+  var maxValue = 0;
+  for (i in dimensions) {
+    name = dimensions[i];
+    if (name !== "brand") {
+      var values = d3.extent(data, function (d) {
+        return +Math.max(d[name]);
+      });
+      maxValue = Math.max(maxValue, values[1]);
+    }
+  }
   for (i in dimensions) {
     name = dimensions[i];
     if (name !== "brand") {
       y[name] = d3
         .scaleLinear()
-        .domain([0, 4500000])
+        .domain([0, maxValue])
         .range([parallelHeight, 0]);
     } else {
       y[name] = d3
@@ -34,30 +45,6 @@ function drawParallelCordinates(data, brands, columns) {
   }
 
   x = d3.scalePoint().range([0, parallelWidth]).domain(dimensions);
-  var highlight = function (d) {
-    brand = d.brand;
-    d3.selectAll(".line")
-      .transition()
-      .duration(200)
-      .style("stroke", "lightgrey")
-      .style("opacity", "0.2");
-    d3.selectAll("." + brand)
-      .transition()
-      .duration(200)
-      .style("stroke", color(brand))
-      .style("opacity", "1");
-  };
-
-  var doNotHighlight = function (d) {
-    d3.selectAll(".line")
-      .transition()
-      .duration(200)
-      .delay(1000)
-      .style("stroke", function (d) {
-        return color(d.brand);
-      })
-      .style("opacity", "1");
-  };
 
   function path(d) {
     return d3.line()(
@@ -78,14 +65,33 @@ function drawParallelCordinates(data, brands, columns) {
     .attr("class", function (d) {
       return "line " + d.brand;
     })
+    .attr("id", function (d) {
+      return "PC" + d.brand;
+    })
     .attr("d", path)
+    .attr("stroke-width", 1.5)
     .style("fill", "none")
     .style("stroke", function (d) {
       return color(d.brand);
     })
-    .style("opacity", 0.5);
-  // .on("mouseover", highlight)
-  // .on("mouseleave", doNotHighlight);
+    .style("opacity", 0.75)
+    .on("mouseover", function (d) {
+      focus.style("display", null);
+      if (!isOwnership)
+        d3.select(".parallel")
+          .selectAll("path")
+          .attr("stroke-width", (_, i, j) => {
+            return Array.from(j)[i].id === "PC" + d.target.__data__.brand
+              ? 4.5
+              : 0.5;
+          });
+    })
+    .on("mouseout", function (_) {
+      focus.style("display", "none");
+      if (!isOwnership)
+        d3.select(".parallel").selectAll("path").attr("stroke-width", 1.5);
+    })
+    .on("mousemove", mousemove);
 
   svg
     .selectAll("myAxis")
@@ -93,6 +99,7 @@ function drawParallelCordinates(data, brands, columns) {
     .enter()
     .append("g")
     .attr("class", "axis")
+    .attr("stroke-width", 1.5)
     .attr("transform", function (d) {
       return "translate(" + x(d) + ")";
     })
@@ -112,10 +119,46 @@ function drawParallelCordinates(data, brands, columns) {
       }
     })
     .append("text")
+    .transition()
+    .duration(2000)
     .style("text-anchor", "middle")
     .attr("y", -10)
     .text(function (d) {
       return d;
     })
     .style("fill", "black");
+
+  var focus = svg.append("g").attr("class", "focus").style("display", "none");
+
+  
+
+  focus.append("circle").attr("r", 5);
+
+  focus
+    .append("rect")
+    .attr("class", "vis-tooltip")
+    .attr("width", 120)
+    .attr("height", 25)
+    .attr("x", 10)
+    .attr("y", -22)
+    .attr("rx", 4)
+    .attr("ry", 4);
+
+  focus.append("text").attr("x", 18).attr("y", -4).text("Sales : ");
+
+  focus
+    .append("text")
+    .attr("class", "tooltip-sales")
+    .attr("x", 60)
+    .attr("y", -4);
+
+  function mousemove(event) {
+    i = Math.ceil(d3.pointer(event)[0] / 95);
+    d = event.target.__data__;
+    focus.attr(
+      "transform",
+      "translate(" + d3.pointer(event)[0] + "," + d3.pointer(event)[1] + ")"
+    );
+    focus.select(".tooltip-sales").text(Object.values(d)[i - 1]);
+  }
 }

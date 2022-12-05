@@ -1,8 +1,81 @@
-.container {
-  padding: 5%;
+body, html {
+  height: 100%;
 }
 
-.charts {
+.container-background {
+  background-image: url("./images/bg1.jpeg");
+  background-size: cover;
+  background-position: center;
+  padding: 5%;
+  background-repeat: no-repeat;
+}
+
+.card-style {
+  background-color: #ffffff05;
+}
+
+.button-class {
+  margin: 20px;
+}
+
+.container-row {
+  align-items: center;
+}
+
+.vis-container {
+  padding: 2.5%;
+}
+
+.subContainer {
   display: flex;
   flex-direction: row;
+  align-items: flex-end;
+  justify-content: baseline;
+}
+
+.author-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.author {
+  padding: 8px;
+  color: #fff;
+}
+
+.cus-span {
+  font-weight: bold;
+  font-size: large;
+}
+
+.cus-span-val {
+  font-weight: 500;
+  font-style: italic;
+}
+
+.bubbleGroup {
+  margin: 20px;
+}
+
+.focus circle {
+  fill: steelblue;
+}
+
+.focus text {
+  font-size: 14px;
+}
+
+.vis-tooltip {
+  fill: white;
+  stroke: #000;
+}
+
+.tooltip-date,
+.tooltip-sales {
+  font-weight: bold;
+}
+
+.overlay {
+  fill: none;
+  pointer-events: all;
 }
